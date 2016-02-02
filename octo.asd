@@ -15,12 +15,12 @@
 (defsystem octo
   :version "0.1"
   :author "Kono Yuya"
-  :license "MIT"
-  :depends-on (:cl-annot)
+  :license "MIT License"
+  :depends-on (:cl-annot :alexandria)
   :components ((:module "src"
                 :components
                 ((:file "octo"))))
-  :description ""
+  :description "Utirity collection by @takoeight0821, for CL beginners."
   :long-description
   #.(with-open-file (stream (merge-pathnames
                              #p"README.markdown"
