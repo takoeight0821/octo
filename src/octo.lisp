@@ -2,8 +2,7 @@
 (defpackage octo
   (:use :cl :cl-annot)
   (:import-from :alexandria
-                :proper-list-p
-                :plist-alist)
+                :proper-list-p)
   (:export :let1
            :dotted-list->proper-list
            :where))
