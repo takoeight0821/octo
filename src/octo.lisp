@@ -24,10 +24,18 @@
                      (cons list nil))))
         (f list))))
 
-(defun alist-parameter (alist)
-  (mapcar #'dotted-list->-proper-list alist))
+(declaim (inline safe-endp))
+(defun safe-endp (x)
+  (declare (optimize safety))
+  (endp x))
+
+(defun plist->bindings (plist)
+  (let (bindings)
+    (do ((tail plist (cddr tail)))
+        ((safe-endp tail) (nreverse bindings))
+      (push `(,(first tail) ,(second tail)) bindings))))
 
 (defmacro where (bind-plist &body body)
-  (let1 bindings (alist-parameter (plist-alist bind-plist))
+  (let1 bindings (plist->bindings bind-plist)
         `(let ,bindings
            ,@body)))
