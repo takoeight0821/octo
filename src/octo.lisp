@@ -1,14 +1,13 @@
 (in-package :cl-user)
 (defpackage octo
-  (:use :cl :cl-annot)
+  (:use :cl)
   (:import-from :alexandria
                 :proper-list-p)
   (:export :let1
            :dotted-list->proper-list
-           :where))
+           :with
+           :for))
 (in-package :octo)
-
-(annot:enable-annot-syntax)
 
 (defmacro let1 (var val &body body)
   `(let ((,var ,val))
@@ -34,7 +33,13 @@
         ((safe-endp tail) (nreverse bindings))
       (push `(,(first tail) ,(second tail)) bindings))))
 
-(defmacro where (bind-plist &body body)
+(defmacro with (bind-plist &body body)
   (let1 bindings (plist->bindings bind-plist)
         `(let ,bindings
+           ,@body)))
+
+(defmacro for ((var start stop) &body body)
+  (let1 gstop (gensym)
+        `(do ((,var ,start (1+ ,var)))
+             ((> ,var ,stop))
            ,@body)))
