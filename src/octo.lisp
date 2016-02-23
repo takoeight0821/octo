@@ -1,45 +1,49 @@
 (in-package :cl-user)
 (defpackage octo
   (:use :cl)
-  (:import-from :alexandria
-                :proper-list-p)
   (:export :let1
-           :dotted-list->proper-list
-           :with
-           :for))
+           :single
+           :alist->plist
+           :plist->alist
+           :with))
 (in-package :octo)
 
 (defmacro let1 (var val &body body)
   `(let ((,var ,val))
      ,@body))
 
-(defun dotted-list->proper-list (list)
-  (if (proper-list-p list)
-      list
-      (labels ((f (list)
-                 (if (consp list)
-                     (cons (car list) (f (cdr list)))
-                     (cons list nil))))
-        (f list))))
+(defun single (list)
+  (and (consp list) (not (cdr list))))
 
-(declaim (inline safe-endp))
-(defun safe-endp (x)
-  (declare (optimize safety))
-  (endp x))
+(defun alist->plist (alist)
+  "Convert a alist into a plist.((a . b) (c . d)) -> (a b c d)"
+  (cond ((null alist) nil)
+        (t (mapcan #'(lambda (pair) (list (first pair) (rest pair))) alist))))
+
+;;; TODO: もっと読みやすい書き方があるはず。 
+(defun make-dotted-list (list)
+  "Convert a two-element list into a dotted list."
+  (cond ((null list) nil)
+        ((not (consp list)) nil)
+        ((single list) (first list))
+        (t (cons (first list)
+                 (make-dotted-list (rest list))))))
+
+(defun plist->alist (plist)
+  "Convert a plist into a alist.(a b c d) -> ((a . b) (c . d))"
+  (cond ((null plist) nil)
+        ((single plist) (list plist))
+        ((single (cdr plist)) (list (make-dotted-list plist)))
+        (t (append (list (make-dotted-list (subseq plist 0 2)))
+                   (plist->alist (subseq plist 2))))))
 
 (defun plist->bindings (plist)
-  (let (bindings)
-    (do ((tail plist (cddr tail)))
-        ((safe-endp tail) (nreverse bindings))
-      (push `(,(first tail) ,(second tail)) bindings))))
+  (mapcar #'(lambda (pair)
+              (list (first pair) (rest pair)))
+          (plist->alist plist)))
+;;; TODOここまで
 
 (defmacro with (bind-plist &body body)
   (let1 bindings (plist->bindings bind-plist)
         `(let ,bindings
-           ,@body)))
-
-(defmacro for ((var start stop) &body body)
-  (let1 gstop (gensym)
-        `(do ((,var ,start (1+ ,var)))
-             ((> ,var ,stop))
            ,@body)))
