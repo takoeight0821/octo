@@ -19,7 +19,8 @@
   :depends-on (:cl-annot :alexandria)
   :components ((:module "src"
                 :components
-                ((:file "octo"))))
+                        ((:file "octo")
+                         (:file "svg"))))
   :description "Utirity collection by @takoeight0821, for CL beginners."
   :long-description
   #.(with-open-file (stream (merge-pathnames
