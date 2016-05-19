@@ -15,13 +15,14 @@
 (defsystem octo
   :version "0.1"
   :author "Kono Yuya"
-  :license "MIT License"
+  :license "Public Domain"
   :depends-on (:cl-annot :alexandria)
   :components ((:module "src"
                 :components
-                        ((:file "octo")
-                         (:file "svg"))))
-  :description "Utirity collection by @takoeight0821, for CL beginners."
+                        ((:file "package")
+                         (:file "threading" :depends-on ("package"))
+                         )))
+  :description "Utility collection."
   :long-description
   #.(with-open-file (stream (merge-pathnames
                              #p"README.markdown"
