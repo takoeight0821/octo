@@ -14,8 +14,8 @@
 
 (defsystem octo
   :version "0.1"
-  :author "Kono Yuya"
-  :license "Public Domain"
+  :author "Yuya Kono"
+  :license "The MIT License"
   :depends-on (:cl-annot :alexandria)
   :components ((:module "src"
                 :components

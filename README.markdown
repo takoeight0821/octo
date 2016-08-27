@@ -1,16 +1,24 @@
 # Octo
 
+The Utilities Collection inspired by:
+
+* dash.el
+* s.el
+* cl21
+* alexandria
+* etc...
+
 ## Usage
 
 ## Installation
 
 ## Author
 
-* Kono Yuya (takohati0821@gmail.com)
+* Yuya Kono (takohati0821@gmail.com)
 
 ## Copyright
 
-Copyright (c) 2016 Kono Yuya (takohati0821@gmail.com)
+Copyright (c) 2016 Yuya Kono (takohati0821@gmail.com)
 
 ## License
 

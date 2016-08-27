@@ -34,7 +34,7 @@
   (if (listp obj) obj (list obj)))
 
 (defun alist->plist (alist)
-  "Convert a alist into a plist.((a . b) (c . d)) -> (a b c d)"
+  "Convert a alist into a plist. For example, ((a . b) (c . d)) -> (a b c d)"
   (cond ((null alist) nil)
         (t (mapcan (lambda (pair) (list (car pair) (cdr pair))) alist))))
 
@@ -48,7 +48,7 @@
                  (make-dotted-list (rest list))))))
 
 (defun plist->alist (plist)
-  "Convert a plist into a alist.(a b c d) -> ((a . b) (c . d))"
+  "Convert a plist into a alist. For example, (a b c d) -> ((a . b) (c . d))"
   (cond ((null plist) nil)
         ((singlep plist) (list plist))
         ((singlep (cdr plist)) (list (make-dotted-list plist)))
