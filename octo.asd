@@ -20,7 +20,10 @@
   :components ((:module "src"
                 :components
                         ((:file "package")
-                         (:file "threading" :depends-on ("package"))
+			 (:file "octo")
+			 (:file "list")
+			 (:file "threading")
+			 (:file "svg")
                          )))
   :description "Utility collection."
   :long-description
