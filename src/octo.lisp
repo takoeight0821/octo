@@ -1,16 +1,3 @@
-(in-package :cl-user)
-(defpackage octo
-  (:use :cl)
-  (:export
-   :let1
-   :last1
-   :singlep
-   :append1
-   :conc1
-   :mklist 
-   :alist->plist
-   :plist->alist
-   :with))
 (in-package :octo)
 
 (defmacro let1 (var val &body body)
@@ -41,8 +28,7 @@
 ;;; TODO: もっと読みやすい書き方があるはず。 
 (defun make-dotted-list (list)
   "Convert a two-element list into a dotted list."
-  (cond ((null list) nil)
-        ((not (consp list)) nil)
+  (cond ((not (consp list)) list)
         ((singlep list) (first list))
         (t (cons (first list)
                  (make-dotted-list (rest list))))))
