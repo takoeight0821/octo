@@ -6,7 +6,9 @@
 
 (defun last1 (list)
   "Return the last element of list."
-  (first (last1 list)))
+  (if (null (cdr list))
+      (car list)
+      (last1 (cdr list))))
 
 (defun singlep (list)
   (and (consp list) (not (cdr list))))
